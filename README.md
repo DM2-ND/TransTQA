@@ -2,7 +2,7 @@
 
 This repository contains the code package for the EMNLP'20 paper:
 
-[A Technical Question Answering System with Transfer Learning](paper/TransTQA.pdf), [Wenhao Yu](https://wyu97.github.io/) (ND), [Lingfei Wu](https://sites.google.com/a/email.wm.edu/teddy-lfwu/) (IBM), Yu Deng (IBM), Ruchi Mahindru (IBM), Qingkai Zeng (ND), Sinem Guven (IBM), [Meng Jiang](http://meng-jiang.com/) (ND).
+**[A Technical Question Answering System with Transfer Learning](paper/TransTQA.pdf).** [Wenhao Yu](https://wyu97.github.io/) (ND), [Lingfei Wu](https://sites.google.com/a/email.wm.edu/teddy-lfwu/) (IBM), Yu Deng (IBM), Ruchi Mahindru (IBM), Qingkai Zeng (ND), Sinem Guven (IBM), [Meng Jiang](http://meng-jiang.com/) (ND).
 
 - Our demonstration website is avaiable at http://159.89.9.22:8080/
 
