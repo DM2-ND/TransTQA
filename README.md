@@ -9,9 +9,9 @@ This repository contains the code package for the EMNLP'20 paper:
 - We also provide a video for the paper at https://vimeo.com/431118548
 
 ## System overall and Framework
-<img src="img/Framwork.png" width="500" align=center>
+<img src="img/Framwork.png" width="800" align=center>
 
-> Figure: High level architecture of our proposed TransTQA system. First, the pre-trained ALBERT model is fine tuned with unstructured source technical corpus with masked language model (MLM) task, i.e., θ → θ+. Second, a siamese ALBERT takes fine tuned ALBERT and fine tunes with source technical QA, i.e., θ+ → θ++. Third, the siamese ALBERT further fine tunes with target QA, i.e., θ++ → θ+++. Our deployed system takes θ+++. Given a query, our system first calculates similarity scores between the query and each candidate answer, then ranks all scores from highest to lowest. 
+> Figure: High level architecture of our proposed TransTQA system. First, the pre-trained ALBERT model is fine tuned with unstructured source technical corpus with masked language model (MLM) task, i.e., θ → θ+. Second, a siamese ALBERT takes fine tuned ALBERT and fine tunes with source technical QA, i.e., θ+ → θ++. Third, the siamese ALBERT further fine tunes with target QA, i.e., θ++ → θ+++. Our deployed system takes θ+++. Given a query, our system first calculates similarity scores between the query and each candidate answer, then ranks all scores from highest to lowest. Finally, the system returns top-3 ranked answers.
 ## Environment settings
 A detailed dependencies list can be found in `requirements.txt` and can be installed by:
 ```
