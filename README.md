@@ -34,6 +34,7 @@ For model transfer learning (we have two target datasets: [stackunix](https://un
 ```
 ./script/run_transfer.sh
 ```
+
 ***Note*** that you should specify the path of pre-trained model and dataset.
 
 ## Citation
