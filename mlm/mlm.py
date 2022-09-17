@@ -30,7 +30,7 @@ import torch
 
 from transformers import (
 
-    CONFIG_MAPPING,
+    # CONFIG_MAPPING,
     MODEL_WITH_LM_HEAD_MAPPING,
     AutoConfig,
     AutoModelWithLMHead,
@@ -278,7 +278,7 @@ def main():
     elif model_args.model_name_or_path:
         config = AutoConfig.from_pretrained(model_args.model_name_or_path, cache_dir=model_args.cache_dir)
     else:
-        config = CONFIG_MAPPING[model_args.model_type]()
+        # config = CONFIG_MAPPING[model_args.model_type]()
         logger.warning("You are instantiating a new config instance from scratch.")
 
     if model_args.tokenizer_name:

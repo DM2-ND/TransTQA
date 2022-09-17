@@ -19,10 +19,10 @@ from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data.sampler import RandomSampler, Sampler, SequentialSampler
 from tqdm.auto import tqdm, trange
 
-from transformers.data.data_collator import DataCollator, default_data_collator
+from transformers.data.data_collator import DataCollator#, default_data_collator
 from transformers.modeling_utils import PreTrainedModel
 from transformers.optimization import AdamW, get_linear_schedule_with_warmup
-from transformers.trainer_utils import PREFIX_CHECKPOINT_DIR, EvalPrediction, PredictionOutput, TrainOutput, is_wandb_available
+from transformers.trainer_utils import PREFIX_CHECKPOINT_DIR, EvalPrediction, PredictionOutput, TrainOutput#, is_wandb_available
 from transformers.training_args import TrainingArguments, is_torch_tpu_available
 
 
@@ -60,8 +60,8 @@ def is_tensorboard_available():
     return _has_tensorboard
 
 
-if is_wandb_available():
-    import wandb
+# if is_wandb_available():
+#     import wandb
 
 
 logger = logging.getLogger(__name__)
@@ -177,7 +177,7 @@ class Trainer:
         """
         self.model = model.to(args.device)
         self.args = args
-        self.data_collator = data_collator if data_collator is not None else default_data_collator
+        self.data_collator = data_collator #if data_collator is not None else default_data_collator
         self.train_dataset = train_dataset
         self.eval_dataset = eval_dataset
         self.compute_metrics = compute_metrics
@@ -187,18 +187,19 @@ class Trainer:
         if tb_writer is not None:
             self.tb_writer = tb_writer
         elif is_tensorboard_available() and self.is_world_master():
-            self.tb_writer = SummaryWriter(log_dir=self.args.logging_dir)
+            # self.tb_writer = SummaryWriter(log_dir=self.args.logging_dir)
+            self.tb_writer = SummaryWriter(logdir=self.args.logging_dir)
         if not is_tensorboard_available():
             logger.warning(
                 "You are instantiating a Trainer but Tensorboard is not installed. You should consider installing it."
             )
-        if is_wandb_available():
-            self._setup_wandb()
-        else:
-            logger.info(
-                "You are instantiating a Trainer but W&B is not installed. To use wandb logging, "
-                "run `pip install wandb; wandb login` see https://docs.wandb.com/huggingface."
-            )
+        # if is_wandb_available():
+        #     self._setup_wandb()
+        # else:
+        #     logger.info(
+        #         "You are instantiating a Trainer but W&B is not installed. To use wandb logging, "
+        #         "run `pip install wandb; wandb login` see https://docs.wandb.com/huggingface."
+        #     )
         set_seed(self.args.seed)
         # Create output directory if needed
         if self.is_world_master():
@@ -407,7 +408,7 @@ class Trainer:
 
         if self.tb_writer is not None:
             self.tb_writer.add_text("args", self.args.to_json_string())
-            self.tb_writer.add_hparams(self.args.to_sanitized_dict(), metric_dict={})
+            # self.tb_writer.add_hparams(self.args.to_sanitized_dict(), metric_dict={})
 
         # Train!
         if is_torch_tpu_available():
@@ -573,9 +574,9 @@ class Trainer:
                         k,
                     )
             self.tb_writer.flush()
-        if is_wandb_available():
-            if self.is_world_master():
-                wandb.log(logs, step=self.global_step)
+        # if is_wandb_available():
+        #     if self.is_world_master():
+        #         wandb.log(logs, step=self.global_step)
         output = {**logs, **{"step": self.global_step}}
         if iterator is not None:
             iterator.write(output)
