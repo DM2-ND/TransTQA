@@ -45,13 +45,13 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-ALL_MODELS = sum(
-    (
-        tuple(BertConfig.pretrained_config_archive_map.keys())
-        for conf in (BertConfig, AlbertConfig)
-    ),
-    (),
-)
+# ALL_MODELS = sum(
+#     (
+#         tuple(BertConfig.pretrained_config_archive_map.keys())
+#         for conf in (BertConfig, AlbertConfig)
+#     ),
+#     (),
+# )
 
 MODEL_CLASSES = {
     "bert": (BertConfig, BertModel, BertTokenizer),
@@ -199,7 +199,7 @@ def train(args, train_dataset, model, optimizer, tokenizer, model_evaluator):
         train_dataloader = DataLoader(train_dataset, sampler=train_sampler, batch_size=args.train_batch_size)
         epoch_iterator = tqdm(train_dataloader, desc="Iteration", disable=args.local_rank not in [-1, 0])
         for step, batch in enumerate(epoch_iterator):
-            break
+            # break
 
             # Skip past any already trained steps if resuming training
             if steps_trained_in_current_epoch > 0:
@@ -305,7 +305,8 @@ def main():
         default=None,
         type=str,
         required=True,
-        help="Path to pre-trained model or shortcut name selected in the list: " + ", ".join(ALL_MODELS),
+        help="Path to pre-trained model or shortcut name",
+        # help="Path to pre-trained model or shortcut name selected in the list: " + ", ".join(ALL_MODELS),
     )
     parser.add_argument(
         "--output_dir",
