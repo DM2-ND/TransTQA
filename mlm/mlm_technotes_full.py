@@ -316,13 +316,13 @@ def main():
     else:
         data_args.block_size = min(data_args.block_size, tokenizer.max_len)
 
-    # Get datasets
-
+    # Get and split datasets
     whole_dataset = get_dataset(data_args, tokenizer=tokenizer)
-    whole_dataset = whole_dataset.train_test_split(test_size=0.2)
-
-    train_dataset = whole_dataset["train"] if training_args.do_train else None
-    eval_dataset = whole_dataset["test"] if training_args.do_eval else None
+    import ipdb; ipdb.set_trace()
+    total_len = len(whole_dataset)
+    test_len = round(total_len * 0.2)
+    train_len = total_len - test_len
+    train_dataset, eval_dataset = torch.utils.data.random_split(whole_dataset, (train_len, test_len))
     data_collator = DataCollatorForLanguageModeling(
         tokenizer=tokenizer, mlm=data_args.mlm, mlm_probability=data_args.mlm_probability
     )
