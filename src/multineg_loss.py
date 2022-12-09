@@ -10,7 +10,7 @@ class MultipleNegativesRankingLoss(nn.Module):
 
         self.reduction = reduction
 
-    def forward(self, embeddings_a: Tensor, embeddings_b: Tensor):
+    def forward(self, questions: Tensor, docs: Tensor, device: torch.device):
 
         """
         Compute the loss over a batch with two embeddings per example.
@@ -29,12 +29,24 @@ class MultipleNegativesRankingLoss(nn.Module):
             The scalar loss
         """
 
-        if self.reduction == 'mean':
-            embeddings_a = torch.mean(embeddings_a, dim=1)
-            embeddings_b = torch.mean(embeddings_b, dim=1)
+        loss = torch.zeros(()).to(device)
 
-        scores = torch.matmul(embeddings_a, embeddings_b.t())
-        diagonal_mean = torch.mean(torch.diag(scores))
-        mean_log_row_sum_exp = torch.mean(torch.logsumexp(scores, dim=1))
-        return -diagonal_mean + mean_log_row_sum_exp
+        for i in range(len(questions)):
+            for doc in docs[i]:
+                similarity = torch.matmul(questions[i].mean(dim=0), doc['doc'].mean(dim=0).t())
+                # similarity = F.cosine_similarity(questions[i].mean(dim=0).unsqueeze(0), doc['doc'].mean(dim=0).unsqueeze(0))
+                if doc['is_ans']:
+                    loss = torch.sub(loss, similarity)
+                else:
+                    loss = torch.add(loss, similarity)
+
+        # if self.reduction == 'mean':
+        #     embeddings_a = torch.mean(embeddings_a, dim=1)
+        #     embeddings_b = torch.mean(embeddings_b, dim=1)
+
+        # scores = torch.matmul(embeddings_a, embeddings_b.t())
+        # diagonal_mean = torch.mean(torch.diag(scores))
+        # mean_log_row_sum_exp = torch.mean(torch.logsumexp(scores, dim=1))
+        # return -diagonal_mean + mean_log_row_sum_exp
+        return loss
 
